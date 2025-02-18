@@ -34,10 +34,16 @@
             source: new ol.source.OSM()
         });
 
-        // Capa base PNOA
+        // Capa base PNOA WMS
         var pnoaLayer = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: 'https://www.ign.es/iberpix/iberpix2D/tiles/{z}/{x}/{y}.png'
+            source: new ol.source.TileWMS({
+                url: 'https://www.ign.es/wms-inspire/pnoa-ma',
+                params: {
+                    'LAYERS': 'PNOA',  // Define la capa PNOA
+                    'TILED': true       // Habilita la carga de mosaicos (tiles)
+                },
+                serverType: 'geoserver',
+                transition: 0
             })
         });
 
@@ -46,7 +52,7 @@
             target: 'map',
             layers: [
                 osmLayer,  // Capa OSM
-                pnoaLayer  // Capa PNOA
+                pnoaLayer  // Capa PNOA WMS
             ],
             view: new ol.View({
                 projection: 'EPSG:4326',
